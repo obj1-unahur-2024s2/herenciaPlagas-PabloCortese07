@@ -1,0 +1,24 @@
+import elementos.*
+import plagas.*
+
+describe "test de elementos" {
+  test "un Hogar con nivel de confort de 15 es bueno" {
+    const hogar0 = new Hogar(confort = 15, mugre = 2)
+    assert.that(hogar0.esBuena())
+  }
+  test "un Hogar con nivel de confort de 15 y nivel de mugre de 11 no es buena" {
+    const hogar1 = new Hogar(confort = 15, mugre = 11)
+    assert.notThat(hogar1.esBuena())
+  }
+  test "una mascota con nivel de salud de 275 es bueno" {
+    const mascota0 = new Mascotas(nivelDeSalud = 275)
+    assert.that(mascota0.esBuena())
+  }
+  test "una mascota con nivel de salud de 169 no es bueno" {
+    const mascota0 = new Mascotas(nivelDeSalud = 169)
+    assert.notThat(mascota0.esBuena())
+  }
+
+
+
+}

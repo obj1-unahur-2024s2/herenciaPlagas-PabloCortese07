@@ -1,3 +1,5 @@
+import plagas.*
+
 class Barrios {
   const property barrio = []
 
@@ -5,22 +7,38 @@ class Barrios {
   method sonCopados() = barrio.count({c => c.esBuena()})
   method noSonCopadas() = barrio.count({c => ! c.esBuena()})
   method esBarrioCopado() = self.sonCopados() > self.noSonCopadas()
+
+  method sufrirPlagaEnElBarrion(unaPlaga) {
+    barrio.forEach({c => c.sufrirAtaqueDe_(unaPlaga)})    
+  }
 }
 
 class Hogar{
-  var nivel_De_Mugre
-  var confort
+  var mugre
+  const confort
 
-  method esBuena() = nivel_De_Mugre < confort / 2
-  method nivel_De_Mugre() = nivel_De_Mugre
+  method esBuena() = self.mugre() < self.confort() / 2
+  method mugre() = mugre
   method confort() = confort
+
+  method sufrirAtaqueDe_(unaPlaga) {
+    mugre = mugre + unaPlaga.nivelDeDanio()
+    unaPlaga.EfectoDeAtaque()
+  }
 }
 
 class Huerta {
   var capacidadDeProduccion
 
   method esBuena() = capacidadDeProduccion > valorMinimoDeProduccion.valor()
+
   method capacidadDeProduccion() = capacidadDeProduccion
+
+  method sufrirAtaqueDe_(unaPlaga) {
+    capacidadDeProduccion = 
+    if(!unaPlaga.transmitenEnfermedades()){ 0.max( capacidadDeProduccion - unaPlaga.nivelDeDanio() * 0.1) } else {0.max( capacidadDeProduccion - (unaPlaga.nivelDeDanio() * 0.1 + 10) )}
+    unaPlaga.EfectoDeAtaque()
+  }
 }
 
 object valorMinimoDeProduccion {
@@ -31,4 +49,10 @@ class Mascotas {
   var nivelDeSalud
 
   method esBuena() = nivelDeSalud > 250
+
+  method sufrirAtaqueDe_(unaPlaga) {
+    nivelDeSalud = if(unaPlaga.transmitenEnfermedades()){0.max(nivelDeSalud - unaPlaga.nivelDeDanio())}
+
+    unaPlaga.EfectoDeAtaque()
+  }
 }
